@@ -12,7 +12,7 @@ $(function () {
     var logged = false;
     var socket = atmosphere;
     var subSocket;
-    var transport = 'websocket';
+    var transport = 'sse';
     var fallbackTransport = 'long-polling'
     var connected = false;
     var uuid = 0;
@@ -84,7 +84,9 @@ $(function () {
                 console.log('This doesn\'t look like a valid JSON: ', message);
                 return;
             }
-
+            if(typeof window.console !== 'undefined'){
+                window.console.log(json);
+            }
             input.removeAttr('disabled').focus();
             if (json.rooms) {
                 rooms.html($('<h2>', { text: 'Current room: ' + chatroom}));

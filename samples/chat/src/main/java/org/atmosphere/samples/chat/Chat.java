@@ -27,14 +27,17 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 import static org.atmosphere.cpr.ApplicationConfig.MAX_INACTIVE;
+import org.codehaus.jackson.JsonEncoding;
 
 /**
- * Simple annotated class that demonstrate the power of Atmosphere. This class supports all transports, support
- * message length garantee, heart beat, message cache thanks to the {@link ManagedService}.
+ * Simple annotated class that demonstrate the power of Atmosphere. This class
+ * supports all transports, support message length garantee, heart beat, message
+ * cache thanks to the {@link ManagedService}.
  */
 @Config
 @ManagedService(path = "/chat", atmosphereConfig = MAX_INACTIVE + "=120000")
 public class Chat {
+
     private final Logger logger = LoggerFactory.getLogger(Chat.class);
 
 // Uncomment for changing response's state
@@ -42,19 +45,21 @@ public class Chat {
 //    public void init(AtmosphereResource r) {
 //        r.getResponse().setCharacterEncoding("UTF-8");
 //    }
-
     /**
-     * Invoked when the connection as been fully established and suspended, e.g ready for receiving messages.
+     * Invoked when the connection as been fully established and suspended, e.g
+     * ready for receiving messages.
      *
      * @param r
      */
-    @Ready
-    public void onReady(final AtmosphereResource r) {
+    @Ready(value = Ready.DELIVER_TO.RESOURCE, encoders = JacksonEncoder.class)
+    public Message onReady(final AtmosphereResource r) {
         logger.info("Browser {} connected.", r.uuid());
+        return new Message("system", "you are " + r.uuid());
     }
 
     /**
-     * Invoked when the client disconnect or when an unexpected closing of the underlying connection happens.
+     * Invoked when the client disconnect or when an unexpected closing of the
+     * underlying connection happens.
      *
      * @param event
      */
@@ -68,7 +73,8 @@ public class Chat {
     }
 
     /**
-     * Simple annotated class that demonstrate how {@link org.atmosphere.config.managed.Encoder} and {@link org.atmosphere.config.managed.Decoder
+     * Simple annotated class that demonstrate how
+     * {@link org.atmosphere.config.managed.Encoder} and {@link org.atmosphere.config.managed.Decoder
      * can be used.
      *
      * @param message an instance of {@link Message}

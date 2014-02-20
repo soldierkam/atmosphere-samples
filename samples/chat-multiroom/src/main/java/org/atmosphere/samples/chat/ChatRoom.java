@@ -58,6 +58,12 @@ public class ChatRoom {
 
         return new ChatProtocol(users.keySet(), getRooms(factory.lookupAll()));
     }
+    
+    @Ready(value = Ready.DELIVER_TO.RESOURCE)
+    public String welcome(final AtmosphereResource r) {
+        logger.info("Welcome {}.", r.uuid());
+        return "{\"HI\": 1}";
+    }
 
     private static Collection<String> getRooms(Collection<Broadcaster> broadcasters) {
         Collection<String> result = new ArrayList<String>();
