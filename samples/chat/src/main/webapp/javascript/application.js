@@ -10,7 +10,7 @@ $(function () {
     var logged = false;
     var socket = atmosphere;
     var subSocket;
-    var transport = 'websocket';
+    var transport = 'streaming';
 
     // We are now ready to cut the request
     var request = { url: document.location.toString() + 'chat',
@@ -51,7 +51,7 @@ $(function () {
     request.onTransportFailure = function(errorMsg, request) {
         atmosphere.util.info(errorMsg);
         request.fallbackTransport = "long-polling";
-        header.html($('<h3>', { text: 'Atmosphere Chat. Default transport is WebSocket, fallback is ' + request.fallbackTransport }));
+        header.html($('<h3>', { text: 'Atmosphere Chat. Default transport is ' + transport + ', fallback is ' + request.fallbackTransport }));
     };
 
     request.onMessage = function (response) {
