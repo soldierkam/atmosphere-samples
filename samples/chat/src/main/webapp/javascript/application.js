@@ -1,10 +1,9 @@
-$(function () {
-    "use strict";
+var Application = function (root){
 
-    var header = $('#header');
-    var content = $('#content');
-    var input = $('#input');
-    var status = $('#status');
+    var header = root.find('.header');
+    var content = root.find('.content');
+    var input = root.find('.input');
+    var status = root.find('.status');
     var myName = false;
     var author = null;
     var logged = false;
@@ -64,7 +63,7 @@ $(function () {
             return;
         }
 
-        input.removeAttr('disabled').focus();
+        //input.removeAttr('disabled').focus();
         if (!logged && myName) {
             logged = true;
             status.text(myName + ': ').css('color', 'blue');
@@ -108,7 +107,7 @@ $(function () {
             subSocket.push(atmosphere.util.stringifyJSON({ author: author, message: msg }));
             $(this).val('');
 
-            input.attr('disabled', 'disabled');
+            //input.attr('disabled', 'disabled');
             if (myName === false) {
                 myName = msg;
             }
@@ -121,4 +120,4 @@ $(function () {
             + (datetime.getMinutes() < 10 ? '0' + datetime.getMinutes() : datetime.getMinutes())
             + ': ' + message + '</p>');
     }
-});
+};
