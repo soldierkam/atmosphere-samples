@@ -9,7 +9,7 @@ var Application = function (root){
     var logged = false;
     var socket = atmosphere;
     var subSocket;
-    var transport = 'streaming';
+    var transport = 'websocket';
 
     // We are now ready to cut the request
     var request = { url: document.location.toString() + 'chat',
@@ -19,7 +19,11 @@ var Application = function (root){
         trackMessageLength : true,
         reconnectInterval : 5000,
         enableXDR: true,
-        timeout : 60000 };
+        timeout : 60000,
+	headers: {
+	   email: "foo@example.com"
+	}
+    };
 
 
     request.onOpen = function(response) {
