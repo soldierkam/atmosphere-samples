@@ -1,4 +1,4 @@
-var Application = function (root){
+var Application = function (root, id){
 
     var header = root.find('.header');
     var content = root.find('.content');
@@ -12,7 +12,7 @@ var Application = function (root){
     var transport = 'websocket';
 
     // We are now ready to cut the request
-    var request = { url: document.location.toString() + 'chat',
+    var request = { url: document.location.toString() + 'chat/' + id,
         contentType : "application/json",
         logLevel : 'debug',
         transport : transport ,

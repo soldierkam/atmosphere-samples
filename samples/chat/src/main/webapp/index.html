@@ -54,10 +54,11 @@
         </div>
         <script type="text/javascript">
             (function() {
-                new Application($("#user1"));
-                new Application($("#user2"));
-                new Application($("#user3"));
-                new Application($("#user4"));
+                var r = Math.random();
+                new Application($("#user1"), r);
+                new Application($("#user2"), r);
+                new Application($("#user3"), r);
+                new Application($("#user4"), r);
             })();
 
         </script>

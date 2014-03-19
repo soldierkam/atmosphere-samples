@@ -35,7 +35,7 @@ import org.codehaus.jackson.JsonEncoding;
  * cache thanks to the {@link ManagedService}.
  */
 @Config
-@ManagedService(path = "/chat", atmosphereConfig = MAX_INACTIVE + "=120000")
+@ManagedService(path = "/chat/{room: [a-zA-Z][a-zA-Z_0-9]*}", atmosphereConfig = MAX_INACTIVE + "=120000")
 public class Chat {
 
     private final Logger logger = LoggerFactory.getLogger(Chat.class);
@@ -53,6 +53,9 @@ public class Chat {
      */
     @Ready(value = Ready.DELIVER_TO.RESOURCE, encoders = JacksonEncoder.class)
     public Message onReady(final AtmosphereResource r) {
+        if(r.getBroadcaster().getID().contains("{")){
+            throw new RuntimeException("Invalid broadcaster " + r.getBroadcaster().getID());
+        }
         logger.info("Browser {} connected.", r.uuid());
         final Message longJson = new Message("system", "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut "
                 + "labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis"
